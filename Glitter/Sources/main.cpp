@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
 
 
     // world space positions of our cubes
-    /*
+    
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f,  0.0f,  0.0f),
         glm::vec3(2.0f,  5.0f, -15.0f),
@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
         glm::vec3(1.5f,  0.2f, -1.5f),
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
-    */
+    
 
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
@@ -199,13 +199,14 @@ int main(int argc, char* argv[])
 
     // ---------------------------------------------------------------------------------------------------------
     // TEXTURE
-    unsigned int diffuseMap = loadTexture("container2.png");
-    // loadTexture(texture2, "awesomeface.png", true, GL_RGBA, GL_RGBA);
+    unsigned int diffuseMap     = loadTexture("container2.png");
+    unsigned int specularMap    = loadTexture("container2_specular.png");
 
     // ---------------------------------------------------------------------------------------------------------
 
     lightingShader.Use();
     lightingShader.setInt("material.diffuse", 0);
+    lightingShader.setInt("material.specular", 1);
 
     // ---------------------------------------------------------------------------------------------------------
     // Rendering Loop
@@ -213,7 +214,7 @@ int main(int argc, char* argv[])
     while (glfwWindowShouldClose(mWindow) == false) {
         // Background Fill Color
         // glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Darker
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         double currentFrame     =   glfwGetTime();
@@ -225,7 +226,7 @@ int main(int argc, char* argv[])
         // use Shader
         lightingShader.Use();
         lightingShader.setVec3("viewPos", camera.Position);
-        lightingShader.setVec3("light.position", lightPos);
+        lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
         
         // light properties
         lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
@@ -233,9 +234,7 @@ int main(int argc, char* argv[])
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
         // material properties
-        lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
         lightingShader.setFloat("material.shininess", 64.0f);
-
 
         // -----------------------------------------------------------------------------------------------------
         /*
@@ -248,22 +247,36 @@ int main(int argc, char* argv[])
 
         // camera/view transformation
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)mWidth / (float)mHeight, 0.1f, 100.0f);
-        lightingShader.setMat4("projection", projection);
-
         glm::mat4 view = camera.GetViewMatrix();
-        lightingShader.setMat4("view", view);
-
         glm::mat4 model = glm::mat4(1.0f);
+
+        lightingShader.setMat4("projection", projection);
+        lightingShader.setMat4("view", view);
         lightingShader.setMat4("model", model);
+
 
         // bind diffuse map
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, diffuseMap);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, specularMap);
 
+        
         // render boxes
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-\
+        // glDrawArrays(GL_TRIANGLES, 0, 36);
+        for (unsigned int i = 0; i < 10; i++)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * i;
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            lightingShader.setMat4("model", model);
+
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        /*
         // also draw the lamp object
         lightCubeShader.Use();
         lightCubeShader.setMat4("projection", projection);
@@ -272,11 +285,10 @@ int main(int argc, char* argv[])
         model = glm::translate(model, lightPos);
         model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
         lightCubeShader.setMat4("model", model);
-
-
+        
         glBindVertexArray(lightCubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
-
+        */
 
         // -----------------------------------------------------------------------------------------------------
         // Start the Dear ImGui frame
