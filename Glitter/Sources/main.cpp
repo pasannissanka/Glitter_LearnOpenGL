@@ -226,12 +226,17 @@ int main(int argc, char* argv[])
         // use Shader
         lightingShader.Use();
         lightingShader.setVec3("viewPos", camera.Position);
-        lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        // lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        lightingShader.setVec3("light.position", lightPos);
         
         // light properties
         lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
         lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+        lightingShader.setFloat("light.constant", 1.0f);
+        lightingShader.setFloat("light.linear", 0.09f);
+        lightingShader.setFloat("light.quadratic", 0.032f);
 
         // material properties
         lightingShader.setFloat("material.shininess", 64.0f);
