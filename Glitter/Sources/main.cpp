@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
 
     // load models
     // -----------
-    Model model_backpack("backpack\\backpack.obj");
+    Model model_backpack("backpack/backpack.obj");
 
     // draw in wireframe
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

@@ -53,7 +53,7 @@ private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
     void loadModel(string const& path)
     {   
-        string _path = PROJECT_SOURCE_DIR "\\Glitter\\Sources\\" + path;
+        string _path = PROJECT_SOURCE_DIR "/Glitter/Sources/" + path;
         // read file via ASSIMP
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -64,6 +64,7 @@ private:
             return;
         }
         // retrieve the directory path of the filepath
+
         directory = _path.substr(0, _path.find_last_of('/'));
 
         // process ASSIMP's root node recursively
@@ -217,7 +218,7 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
     glGenTextures(1, &textureID);
 
     int width, height, nrComponents;
-    std::cout << " at path: " << filename << std::endl;
+    std::cout << " Loading texture at:  " << filename << std::endl;
     unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
     if (data)
     {
