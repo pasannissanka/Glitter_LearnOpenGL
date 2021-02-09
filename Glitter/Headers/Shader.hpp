@@ -1,3 +1,7 @@
+#ifndef SHADER_H
+#define SHADER_H
+
+
 // Local Headers
 #include "glitter.hpp"
 
@@ -79,3 +83,6 @@ public:
 private:
 	void checkCompileErrors(unsigned int shader, std::string type);
 };
+
+
+#endif // !SHADER_H
