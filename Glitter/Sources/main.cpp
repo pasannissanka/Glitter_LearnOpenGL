@@ -226,8 +226,8 @@ int main(int argc, char* argv[])
         // use Shader
         lightingShader.Use();
         lightingShader.setVec3("viewPos", camera.Position);
-        // lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
-        // lightingShader.setVec3("light.position", lightPos);
+        lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        lightingShader.setVec3("light.position", lightPos);
         
         lightingShader.setVec3("light.position", camera.Position);
         lightingShader.setVec3("light.direction", camera.Front);
@@ -286,7 +286,7 @@ int main(int argc, char* argv[])
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
-        /*
+        
         // also draw the lamp object
         lightCubeShader.Use();
         lightCubeShader.setMat4("projection", projection);
@@ -298,7 +298,7 @@ int main(int argc, char* argv[])
         
         glBindVertexArray(lightCubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
-        */
+        
 
         // -----------------------------------------------------------------------------------------------------
         // Start the Dear ImGui frame
@@ -408,7 +408,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 // ---------------------------------------------------
 unsigned int loadTexture(std::string source)
 {
-    std::string texturePath = PROJECT_SOURCE_DIR "\\Glitter\\Shaders\\Assets\\";
+    std::string texturePath = "./Shaders/Assets/";
     unsigned int textureID;
     glGenTextures(1, &textureID);
 
