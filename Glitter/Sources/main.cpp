@@ -331,7 +331,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 // TODO May need to add more image specific paramenters //  Make a Texture loading class
 void loadTexture(unsigned int &texture, std::string source, bool isFlipVerticle, GLint internalFormat, GLint format)
 {
-    std::string texturePath = PROJECT_SOURCE_DIR "\\Glitter\\Shaders\\Assets\\";
+    std::string texturePath = "./Assets/";
     glGenTextures(1, &texture); glBindTexture(GL_TEXTURE_2D, texture);
     // set the texture wrapping parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
