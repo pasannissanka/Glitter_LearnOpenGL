@@ -15,7 +15,7 @@ Shader::Shader(std::string const& vertexPath, std::string const& fragmentPath)
     try
     {
         // Open files
-        std::string path = PROJECT_SOURCE_DIR "\\Glitter\\Shaders\\";
+        std::string path = "./Shaders/";
         vShaderFile.open(path + vertexPath);
         fShaderFile.open(path + fragmentPath);
         std::stringstream vShaderStream, fShaderStream;

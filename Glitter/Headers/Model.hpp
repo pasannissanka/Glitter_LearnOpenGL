@@ -53,7 +53,7 @@ private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
     void loadModel(string const& path)
     {   
-        string _path = PROJECT_SOURCE_DIR "/Glitter/Sources/" + path;
+        string _path = "./Shaders/Assets/" + path;
         // read file via ASSIMP
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
